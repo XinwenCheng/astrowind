@@ -3,16 +3,17 @@ import type { ImageMetadata } from 'astro';
 import type { OpenGraph } from '@astrolib/seo';
 
 const load = async function () {
-  let images: Record<string, () => Promise<unknown>> | undefined = undefined;
+  let images: Record | undefined = undefined;
   try {
     images = import.meta.glob('~/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}');
   } catch (e) {
     // continue regardless of error
+    console.error(e);
   }
   return images;
 };
 
-let _images: Record<string, () => Promise<unknown>> | undefined = undefined;
+let _images: Record | undefined = undefined;
 
 /** */
 export const fetchLocalImages = async () => {
@@ -21,9 +22,7 @@ export const fetchLocalImages = async () => {
 };
 
 /** */
-export const findImage = async (
-  imagePath?: string | ImageMetadata | null
-): Promise<string | ImageMetadata | undefined | null> => {
+export const findImage = async (imagePath?: string | ImageMetadata | null): Promise => {
   // Not string
   if (typeof imagePath !== 'string') {
     return imagePath;
@@ -51,7 +50,7 @@ export const findImage = async (
 export const adaptOpenGraphImages = async (
   openGraph: OpenGraph = {},
   astroSite: URL | undefined = new URL('')
-): Promise<OpenGraph> => {
+): Promise => {
   if (!openGraph?.images?.length) {
     return openGraph;
   }

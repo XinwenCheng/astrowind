@@ -1,24 +1,20 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-import { defineConfig, squooshImageService } from 'astro/config';
-
+// import path from 'path';
+// import { fileURLToPath } from 'url';
+import { defineConfig,/* squooshImageService */} from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
-
 import astrowind from './vendor/integration';
-
 import {
   readingTimeRemarkPlugin,
   responsiveTablesRehypePlugin,
   lazyImagesRehypePlugin,
 } from './src/utils/frontmatter.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
 const whenExternalScripts = (items = []) =>
@@ -74,10 +70,10 @@ export default defineConfig({
     }),
   ],
 
-  image: {
-    service: squooshImageService(),
-    domains: ['cdn.pixabay.com'],
-  },
+  // image: {
+  //   service: squooshImageService(),
+  //   domains: ['cdn.pixabay.com'],
+  // },
 
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
@@ -86,8 +82,11 @@ export default defineConfig({
 
   vite: {
     resolve: {
-      alias: {
-        '~': path.resolve(__dirname, './src'),
+      // alias: {
+      //   '~': path.resolve(__dirname, './src'),
+      // },
+      alias: import.meta.env.PROD && {
+        "react-dom/server": "react-dom/server.edge",
       },
     },
   },

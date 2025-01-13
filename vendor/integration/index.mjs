@@ -107,6 +107,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
           }
         } catch (err) {
           /* empty */
+          console.error(err);
         }
       },
     },
